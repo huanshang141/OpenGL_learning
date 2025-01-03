@@ -7,10 +7,10 @@ endif()
 
 project(OpenGL)
 include_directories("D:/WorkSpace/Clion_project/OpenGL/include")
-link_directories("D:/WorkSpace/Clion_project/OpenGL/lib")
+link_directories("D:/WorkSpace/Clion_project/OpenGL/lib/GLFW")
 
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(OpenGL main.cpp
         glad.c)
-target_link_libraries(OpenGL glfw3.dll)
+target_link_libraries(OpenGL glfw3.lib)

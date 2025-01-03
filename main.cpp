@@ -13,8 +13,10 @@ int main()
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
+    //设置主版本号和次版本号
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    //使用核心模式
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
@@ -31,6 +33,7 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
+    //回调函数，当窗口大小改变时，调用第二个参数，视口也改变
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
@@ -43,15 +46,21 @@ int main()
 
     // render loop
     // -----------
+    //检测窗口是否关闭
     while (!glfwWindowShouldClose(window))
     {
         // input
         // -----
         processInput(window);
+        //渲染指令
+        glClearColor(0.2f,0.3f,0.3f,1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
+        //交换缓冲
         glfwSwapBuffers(window);
+        //事件检测
         glfwPollEvents();
     }
 
