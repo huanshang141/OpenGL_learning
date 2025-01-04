@@ -91,6 +91,9 @@ public:
     {
         glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
     }
+    void setMat4fv(const std::string &name, float* value)const{
+        glad_glUniformMatrix4fv(glGetUniformLocation(ID,name.c_str()), 1, GL_FALSE, value);
+    }
 private:
     void checkCompileErrors(unsigned int shader, std::string type)
     {

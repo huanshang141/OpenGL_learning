@@ -50,10 +50,7 @@ int main()
     }
     Shader ourShader("../scr/3.3.shader.vs", "../scr/3.3.shader.fs");
 
-    //向量变换
-    glm::mat4 trans(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.f),glm::vec3(0,0,1.f));
-    trans = glm::scale(trans,glm::vec3(0.5f,0.5f,0.5f));
+
 
 
     //材质
@@ -86,8 +83,7 @@ int main()
     ourShader.setInt("texture1",0);
     ourShader.setInt("texture2",1);
 
-    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-    glad_glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
     //顶点坐标
     float vertices[] = {
 //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -147,12 +143,23 @@ int main()
 //        float greenValue = sin(timeValue) / 2.0f + 0.5f;
 //        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 //        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        //向量变换
+        glm::mat4 trans(1.0f);
+
+        trans = glm::rotate(trans, (float)glfwGetTime(),glm::vec3(0,0,1.f));
+        trans = glm::translate(trans,glm::vec3(0.5f,-0.5f,0));
+        ourShader.setMat4fv("transform",glm::value_ptr(trans));
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D,texture2);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        trans = glm::mat4(1.0f);
+        trans = glm::translate(trans,glm::vec3(-0.5f,0.5f,0));
+        trans = glm::rotate(trans,(float)glfwGetTime(),glm::vec3(0,0,1.f));
+        ourShader.setMat4fv("transform",glm::value_ptr(trans));
+        glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 //        glDrawArrays(GL_TRIANGLES,0,3);
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
