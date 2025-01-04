@@ -15,6 +15,22 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
+    glm::mat2 A(1.0f);
+    glm::mat2 B(1.0f,0,1,1);
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            std::cout<<A[i][j]<<" ";
+        }
+        std::cout<<std::endl;
+    }
+    A = glm::mat2 (1,2,3,4);
+    A = A*B;
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            std::cout<<A[i][j]<<" ";
+        }
+        std::cout<<std::endl;
+    }
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -170,19 +186,30 @@ int main()
     glBindVertexArray(0);
 
     //transform
-    glm::mat4 model(1.0f);
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
     glm::mat4 view(1.0f);
 // 注意，我们将矩阵向我们要进行移动场景的反方向移动。
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    view = glm::translate(view, glm::vec3(0, 0.f, -10.0f));
+    view = glm::rotate(view,glm::radians(-45.f),glm::vec3(1.f,0,0));
     glm::mat4 projection(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
-    ourShader.setMat4fv("model",glm::value_ptr(model));
+    projection = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 1000.0f);
+
     ourShader.setMat4fv("view",glm::value_ptr(view));
     ourShader.setMat4fv("projection",glm::value_ptr(projection));
-    glm::mat4 preRotate(1.0f);
-    preRotate = glm::rotate(preRotate,glm::radians(45.f),glm::vec3(0.5f,0.5f,0));
-    ourShader.setMat4fv("preRotate", glm::value_ptr(preRotate));
+
+    glm::vec3 cubePositions[] = {
+            glm::vec3( 0.0f,  0.0f,  0.0f),
+            glm::vec3( 2.0f,  5.0f, -15.0f),
+            glm::vec3(-1.5f, -2.2f, -2.5f),
+            glm::vec3(-3.8f, -2.0f, -12.3f),
+            glm::vec3( 2.4f, -0.4f, -3.5f),
+            glm::vec3(-1.7f,  3.0f, -7.5f),
+            glm::vec3( 1.3f, -2.0f, -2.5f),
+            glm::vec3( 1.5f,  2.0f, -2.5f),
+            glm::vec3( 1.5f,  0.2f, -1.5f),
+            glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
+
     // render loop
     // -----------
     //检测窗口是否关闭
@@ -201,12 +228,7 @@ int main()
 //        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 //        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
         //向量变换
-        glm::mat4 trans(1.0f);
 
-        trans = glm::rotate(trans, (float)glfwGetTime(),glm::vec3(0,0,1.f));
-        trans = glm::translate(trans,glm::vec3(0.5f,-0.5f,0));
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0,0,1));
-        ourShader.setMat4fv("transform",glm::value_ptr(trans));
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
         glActiveTexture(GL_TEXTURE1);
@@ -214,13 +236,27 @@ int main()
         glBindVertexArray(VAO);
 //        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glDrawArrays(GL_TRIANGLES,0,36);
-        trans = glm::mat4(1.0f);
-        trans = glm::translate(trans,glm::vec3(-0.5f,0.5f,0));
-        trans = glm::rotate(trans,(float)glfwGetTime(),glm::vec3(0,0,1.f));
-        ourShader.setMat4fv("transform",glm::value_ptr(trans));
+
 //        glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
         glDrawArrays(GL_TRIANGLES,0,36);
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+
+
+
+        for(unsigned int i = 0; i < 10; i++)
+        {
+            glm::mat4 model(1.0f);
+//            model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+
+            model = glm::rotate(model,(float)glfwGetTime(),glm::vec3(0,0,1.f));
+            model = glm::rotate(model,glm::radians(45.f),glm::vec3(0.5f,0.5f,0));
+            ourShader.setMat4fv("model", glm::value_ptr(model));
+
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
         // -------------------------------------------------------------------------------
         //交换缓冲
         glfwSwapBuffers(window);
