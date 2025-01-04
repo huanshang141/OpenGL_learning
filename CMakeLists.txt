@@ -12,5 +12,6 @@ link_directories("D:/WorkSpace/Clion_project/OpenGL/lib/GLFW")
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(OpenGL main.cpp
-        glad.c)
+        glad.c
+        shader.h)
 target_link_libraries(OpenGL glfw3.lib)
