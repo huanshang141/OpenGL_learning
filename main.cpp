@@ -3,6 +3,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "shader.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -47,6 +50,12 @@ int main()
     }
     Shader ourShader("../scr/3.3.shader.vs", "../scr/3.3.shader.fs");
 
+    //向量变换
+    glm::mat4 trans(1.0f);
+    trans = glm::rotate(trans, glm::radians(90.f),glm::vec3(0,0,1.f));
+    trans = glm::scale(trans,glm::vec3(0.5f,0.5f,0.5f));
+
+
     //材质
     stbi_set_flip_vertically_on_load(true);
     int width, height, nrChannels;
@@ -76,6 +85,9 @@ int main()
     ourShader.use();
     ourShader.setInt("texture1",0);
     ourShader.setInt("texture2",1);
+
+    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    glad_glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     //顶点坐标
     float vertices[] = {
 //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
