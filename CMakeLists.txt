@@ -13,5 +13,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(OpenGL main.cpp
         glad.c
-        shader.h)
+        image_loader.cpp
+)
 target_link_libraries(OpenGL glfw3.lib)

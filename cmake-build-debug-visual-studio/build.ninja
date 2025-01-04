@@ -65,6 +65,14 @@ build CMakeFiles\OpenGL.dir\glad.c.obj: C_COMPILER__OpenGL_unscanned_Debug D$:\W
   TARGET_COMPILE_PDB = CMakeFiles\OpenGL.dir\
   TARGET_PDB = OpenGL.pdb
 
+build CMakeFiles\OpenGL.dir\image_loader.cpp.obj: CXX_COMPILER__OpenGL_unscanned_Debug D$:\WorkSpace\Clion_project\OpenGL\image_loader.cpp || cmake_object_order_depends_target_OpenGL
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -std:c++17 -MDd -ZI
+  INCLUDES = -ID:\WorkSpace\Clion_project\OpenGL\include
+  OBJECT_DIR = CMakeFiles\OpenGL.dir
+  OBJECT_FILE_DIR = CMakeFiles\OpenGL.dir
+  TARGET_COMPILE_PDB = CMakeFiles\OpenGL.dir\
+  TARGET_PDB = OpenGL.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target OpenGL
@@ -73,7 +81,7 @@ build CMakeFiles\OpenGL.dir\glad.c.obj: C_COMPILER__OpenGL_unscanned_Debug D$:\W
 #############################################
 # Link the executable OpenGL.exe
 
-build OpenGL.exe: CXX_EXECUTABLE_LINKER__OpenGL_Debug CMakeFiles\OpenGL.dir\main.cpp.obj CMakeFiles\OpenGL.dir\glad.c.obj
+build OpenGL.exe: CXX_EXECUTABLE_LINKER__OpenGL_Debug CMakeFiles\OpenGL.dir\main.cpp.obj CMakeFiles\OpenGL.dir\glad.c.obj CMakeFiles\OpenGL.dir\image_loader.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -ZI
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = glfw3.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
